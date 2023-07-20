@@ -26,51 +26,44 @@ const rgbeLoader = new RGBELoader().setPath('static/');
 rgbeLoader.load('rural_asphalt_road_2k.hdr', function(texture) {
   texture.mapping = THREE.EquirectangularReflectionMapping;
   scene.background = texture;
-  //scene.environment = texture;
 
-  rgbeLoader.load('lightmap_archviz_linear.hdr', function(lightmap) {
-    lightmap.flipY = false;
-    lightmap.colroSpace = "srgb";
-    lightmap.channel = 1;
-    console.log(lightmap);
-    loader.load( 'archviz.glb', function ( gltf ) {
-      console.log(gltf);
-      model = gltf.scene.children[0];
-      model.children.forEach(obj => {
-        console.log(obj.material)
-        const { material } = obj;
-        material.lightMap = material.emissiveMap;
-        material.lightMapIntensity = 2.0;
-        material.envMap = cubeRenderTarget.texture;
-        material.aoMap = material.emissiveMap;
-        material.aoMapIntensity = 0.5;
-        //material.aoMap = lightmap;
-        //material.lightMap = lightmap;
-        //material.roughness = 0.05;
-        //material.roughnessMap = null;
-        if(material.roughnessMap) {
-          material.roughness = 0.15;
-          //material.roughnessMap.colorSpace = THREE.LinearSRGBColorSpace;
-          material.roughnessMap.colorSpace = THREE.SRGBColorSpace;
-        } else if(material.name === "Walls") {
-          material.roughness = 0.8;
-        }
-        material.emissive = null;
-        material.emissiveMap = null;
-        if(material.normalMap) {
-          material.normalMap.colorSpace = THREE.SRGBColorSpace;
-        }
-        
-      })
-      scene.add( gltf.scene );
+  loader.load( 'archviz.glb', function ( gltf ) {
+    console.log(gltf);
+    model = gltf.scene.children[0];
+    model.children.forEach(obj => {
+      console.log(obj.material)
+      const { material } = obj;
+      material.lightMap = material.emissiveMap;
+      material.lightMapIntensity = 2.0;
+      material.envMap = cubeRenderTarget.texture;
+      material.aoMap = material.emissiveMap;
+      material.aoMapIntensity = 0.5;
+      //material.aoMap = lightmap;
+      //material.lightMap = lightmap;
+      //material.roughness = 0.05;
+      //material.roughnessMap = null;
+      if(material.roughnessMap) {
+        material.roughness = 0.15;
+        //material.roughnessMap.colorSpace = THREE.LinearSRGBColorSpace;
+        material.roughnessMap.colorSpace = THREE.SRGBColorSpace;
+      } else if(material.name === "Walls") {
+        material.roughness = 0.8;
+      }
+      material.emissive = null;
+      material.emissiveMap = null;
+      if(material.normalMap) {
+        material.normalMap.colorSpace = THREE.SRGBColorSpace;
+      }
+      
+    })
+    scene.add( gltf.scene );
 
-      cubeCamera.update(renderer, scene);
-    
-      drawScene();
-    }, undefined, function ( error ) {
-      console.error( error );
-    } );
-  });
+    cubeCamera.update(renderer, scene);
+  
+    drawScene();
+  }, undefined, function ( error ) {
+    console.error( error );
+  } );
 });
 
 
