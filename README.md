@@ -1,1 +1,2 @@
-"#arcviz-js\nA simple Blender to Three.js asset pipeline test." 
+#arcviz-js
+A simple Blender to Three.js asset pipeline test.
